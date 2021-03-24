@@ -1,7 +1,3 @@
-# sample-project-php
+# game-of-life
 
-PHP sample project with PHPUnit.
-
-# Install
-
-run ```composer install```
+game of life 2021
