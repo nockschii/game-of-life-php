@@ -3,7 +3,9 @@
     "description": "sample project for php",
     "type": "project",
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+      "ext-json": "*"
+    },
     "require-dev": {
         "phpunit/phpunit": "9.*",
         "mockery/mockery": "1.4.*"
