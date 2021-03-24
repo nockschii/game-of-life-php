@@ -2,10 +2,10 @@
 
 namespace GameOfLifeTests;
 
-use GameOfLife\Parser;
+use GameOfLife\ParserFactory;
 use PHPUnit\Framework\TestCase;
 
-class ParserTest extends TestCase
+class ParserFactoryTest extends TestCase
 {
     /**
      * @test
@@ -15,9 +15,9 @@ class ParserTest extends TestCase
      */
     public function shouldReturnRawGridWhenUsingInputParserForInputFiles($filePath, $expectedGrid): void
     {
-        $parser = new Parser($filePath);
+        $parserFactory = new ParserFactory($filePath);
 
-        $rawGrid = $parser->parse();
+        $rawGrid = $parserFactory->parse();
 
         $this->assertEquals($expectedGrid, $rawGrid);
     }

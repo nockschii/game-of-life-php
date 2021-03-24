@@ -2,7 +2,7 @@
 
 namespace GameOfLife;
 
-class Parser
+class ParserFactory
 {
     private string $filePath;
 
@@ -23,7 +23,7 @@ class Parser
     {
         $fileEnding = ucfirst($this->extractFileType());
 
-        return  "\\GameOfLife\\{$fileEnding}Parser";
+        return  "\\GameOfLife\\{$fileEnding}ParserFactory";
     }
 
     private function extractFileType(): string
