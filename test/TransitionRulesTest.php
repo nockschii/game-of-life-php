@@ -40,6 +40,17 @@ class TransitionRulesTest extends TestCase
         $this->assertTrue($isAlive);
     }
 
+    /** @test */
+    public function shouldBeAliveWhenNeighboursCountIs3AndCellIsAlive()
+    {
+        $this->cell->shouldReceive('isAlive')->andReturnTrue();
+        $this->cell->shouldReceive('neighboursCount')->andReturn(3);
+
+        $isAlive = $this->transitionRules->apply($this->cell);
+
+        $this->assertTrue($isAlive);
+    }
+
     public function tearDown(): void
     {
         Mockery::close();
