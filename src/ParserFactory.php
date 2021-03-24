@@ -23,7 +23,7 @@ class ParserFactory
     {
         $fileEnding = ucfirst($this->extractFileType());
 
-        return  "\\GameOfLife\\{$fileEnding}ParserFactory";
+        return  "\\GameOfLife\\{$fileEnding}Parser";
     }
 
     private function extractFileType(): string
