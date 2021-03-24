@@ -9,15 +9,33 @@ use PHPUnit\Framework\TestCase;
 
 class TransitionRulesTest extends TestCase
 {
+    private Cell $cell;
+    private TransitionRules $transitionRules;
+
+    protected function setUp(): void
+    {
+        $this->cell = Mockery::mock(Cell::class);
+        $this->transitionRules = new TransitionRules();
+    }
+
     /** @test */
     public function shouldBeAliveWhenNeighboursCountIs3AndCellIsDead()
     {
-        $cell = Mockery::mock(Cell::class);
-        $cell->shouldReceive('neighboursCount')->once()->andReturn(3);
-        $cell->shouldReceive('isAlive')->once()->andReturnFalse();
-        $transitionRules = new TransitionRules();
+        $this->cell->shouldReceive('isAlive')->andReturnFalse();
+        $this->cell->shouldReceive('neighboursCount')->andReturn(3);
 
-        $isAlive = $transitionRules->apply($cell);
+        $isAlive = $this->transitionRules->apply($this->cell);
+
+        $this->assertTrue($isAlive);
+    }
+
+    /** @test */
+    public function shouldBeAliveWhenNeighboursCountIs2AndCellIsAlive()
+    {
+        $this->cell->shouldReceive('isAlive')->andReturnTrue();
+        $this->cell->shouldReceive('neighboursCount')->andReturn(2);
+
+        $isAlive = $this->transitionRules->apply($this->cell);
 
         $this->assertTrue($isAlive);
     }
