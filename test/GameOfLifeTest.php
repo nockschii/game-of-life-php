@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class GameOfLifeTest extends TestCase
 {
     /** @test */
-    public function shouldReturnRawGridAfterOneInteration()
+    public function shouldReturnRawGridAfterOneIteration()
     {
         $transitionRules = new TransitionRules();
         $parserFactory = new ParserFactory("testPatterns/Blinker1.input");
