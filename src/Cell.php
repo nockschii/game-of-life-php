@@ -2,6 +2,8 @@
 
 namespace GameOfLife;
 
+use Exception;
+
 class Cell
 {
     private bool $isAlive;
@@ -29,8 +31,11 @@ class Cell
         return $count;
     }
 
-    public function setNeighbours(array $neighbours)
+    public function setNeighbours(array $neighbours): void
     {
+        if (count($neighbours) > 8) {
+            throw new Exception();
+        }
         $this->neighbours = $neighbours;
     }
 }

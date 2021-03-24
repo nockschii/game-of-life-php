@@ -2,21 +2,163 @@
 
 namespace GameOfLifeTests;
 
+use Exception;
 use GameOfLife\Cell;
 use PHPUnit\Framework\TestCase;
 
 class CellTest extends TestCase
 {
-    /** @test */
-    public function shouldBeDeadGivenNoOption()
-    {
-        $cell = new Cell();
+    private Cell $cell;
 
-        $state = $cell->isAlive();
+    protected function setUp(): void
+    {
+        $this->cell = new Cell();
+    }
+
+    /** @test */
+    public function shouldBeDeadByDefaultGivenNoOption()
+    {
+        $state = $this->cell->isAlive();
 
         $this->assertFalse($state);
     }
 
+    /**
+     * @test
+     * @dataProvider givenValidNeighbours
+     * @param array $neighbours
+     * @param int $expectedCount
+     * @throws Exception
+     */
+    public function shouldReturnCountOfNeighboursGivenValidNeighbours(array $neighbours, int $expectedCount)
+    {
+        $this->cell->setNeighbours($neighbours);
+
+        $neighboursCount = $this->cell->neighboursCount();
+
+        $this->assertSame($expectedCount, $neighboursCount);
+    }
+
+    public function givenValidNeighbours(): array
+    {
+        return [
+            "shouldReturnNeighboursCountGivenListWithOneAliveNeighbour" => [
+                [
+                    new Cell(true)
+                ],
+                1
+            ],
+            "shouldReturnNeighboursCountGivenListTwoAliveCells" => [
+                [
+                    new Cell(true),
+                    new Cell(true)
+                ],
+                2
+            ],
+            "shouldReturnNeighboursCountGivenListTwoAliveCellsAndOneDead" => [
+                [
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell()
+                ],
+                2
+            ],
+            "shouldReturnNeighboursCountGivenList1AliveCellAnd7DeadCells" => [
+                [
+                    new Cell(true),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                ],
+                1
+            ],
+            "shouldReturnNeighboursCountGivenList4AliveCellAnd4DeadCells" => [
+                [
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                    new Cell(),
+                ],
+                4
+            ],
+            "shouldReturnNeighboursCountGivenList8AliveCells" => [
+                [
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                    new Cell(true),
+                ],
+                8
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider givenInvalidNeighbours
+     * @param $neighbours
+     * @throws Exception
+     */
+    public function shouldThrowExceptionWhenNeighboursCountIsMoreThan8($neighbours)
+    {
+        $this->expectException(Exception::class);
+        $this->cell->setNeighbours($neighbours);
+
+        $this->cell->neighboursCount();
+    }
+
+    public function givenInvalidNeighbours(): array
+    {
+        return  [
+          "shouldReturnExceptionWhenMoreThan8AliveCells" => [
+              [
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true)
+              ],
+              [
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+              ],
+              [
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(true),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+                  new Cell(),
+              ],
+          ]
+        ];
+    }
 
     /** @test */
     public function shouldBeAlivePassingStateOntoConstructor()
@@ -26,111 +168,5 @@ class CellTest extends TestCase
         $state = $cell->isAlive();
 
         $this->assertTrue($state);
-    }
-
-    /** @test */
-    public function shouldReturnNeighboursCountGivenListWithOneAliveNeighbour()
-    {
-        $cell = new Cell();
-        $neighbours = [new Cell(true)];
-        $cell->setNeighbours($neighbours);
-
-        $neighboursCount = $cell->neighboursCount();
-
-        $this->assertSame(1, $neighboursCount);
-    }
-
-    /** @test */
-    public function shouldReturnNeighboursCountGivenListTwoAliveCells()
-    {
-        $cell = new Cell();
-        $neighbours = [
-            new Cell(true),
-            new Cell(true)
-        ];
-        $cell->setNeighbours($neighbours);
-
-        $neighboursCount = $cell->neighboursCount();
-
-        $this->assertSame(2, $neighboursCount);
-    }
-
-    /** @test */
-    public function shouldReturnNeighboursCountGivenListTwoAliveCellsAndOneDead()
-    {
-        $cell = new Cell();
-        $neighbours = [
-            new Cell(true),
-            new Cell(true),
-            new Cell()
-        ];
-        $cell->setNeighbours($neighbours);
-
-        $neighboursCount = $cell->neighboursCount();
-
-        $this->assertSame(2, $neighboursCount);
-    }
-
-    /** @test */
-    public function shouldReturnNeighboursCountGivenList1AliveCellAnd7DeadCells()
-    {
-        $cell = new Cell();
-        $neighbours = [
-            new Cell(true),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-        ];
-        $cell->setNeighbours($neighbours);
-
-        $neighboursCount = $cell->neighboursCount();
-
-        $this->assertSame(1, $neighboursCount);
-    }
-
-    /** @test */
-    public function shouldReturnNeighboursCountGivenList4AliveCellAnd4DeadCells()
-    {
-        $cell = new Cell();
-        $neighbours = [
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-            new Cell(),
-        ];
-        $cell->setNeighbours($neighbours);
-
-        $neighboursCount = $cell->neighboursCount();
-
-        $this->assertSame(4, $neighboursCount);
-    }
-
-    /** @test */
-    public function shouldReturnNeighboursCountGivenList8AliveCells()
-    {
-        $cell = new Cell();
-        $neighbours = [
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-            new Cell(true),
-        ];
-        $cell->setNeighbours($neighbours);
-
-        $neighboursCount = $cell->neighboursCount();
-
-        $this->assertSame(8, $neighboursCount);
     }
 }
