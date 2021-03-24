@@ -27,4 +27,16 @@ class CellTest extends TestCase
 
         $this->assertTrue($state);
     }
+
+    /** @test */
+    public function shouldReturnNeighboursCountGivenListWithNeighbours()
+    {
+        $cell = new Cell();
+        $neighbours = [new Cell(true)];
+        $cell->setNeighbours($neighbours);
+
+        $neighboursCount = $cell->neighboursCount();
+
+        $this->assertSame(1, $neighboursCount);
+    }
 }
