@@ -6,12 +6,10 @@ class TransitionRules
 {
     public function apply(Cell $cell)
     {
-        if ($cell->isAlive()) {
-            return $cell->neighboursCount() === 2 || $cell->neighboursCount() === 3;
-        } elseif (!$cell->isAlive()) {
+        if (!$cell->isAlive()) {
             return $cell->neighboursCount() === 3;
         }
 
-        return false;
+        return $cell->neighboursCount() === 2 || $cell->neighboursCount() === 3;
     }
 }
