@@ -19,7 +19,14 @@ class Cell
 
     public function neighboursCount(): int
     {
-        return 1;
+        $count = 0;
+        foreach ($this->neighbours as $neighbour) {
+            if ($neighbour->isAlive()) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     public function setNeighbours(array $neighbours)
