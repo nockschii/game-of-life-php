@@ -27,7 +27,9 @@ class Grid
         $neighbours = [];
         for ($y = $posY - 1; $y < $posY + 2; $y++) {
             for ($x = $posX - 1; $x < $posX + 2; $x++) {
-                if ($x === $posX && $y === $posY) {
+                if ($this->isSameCell($x, $posX, $y, $posY)) {
+                    continue;
+                } elseif ($this->outOfBounds($x,$y)) {
                     continue;
                 }
                 $neighbours[] = $this->grid[$y][$x];
@@ -35,5 +37,25 @@ class Grid
         }
 
         return $neighbours;
+    }
+
+    /**
+     * @param int $x
+     * @param int $posX
+     * @param int $y
+     * @param int $posY
+     * @return bool
+     */
+    private function isSameCell(int $x, int $posX, int $y, int $posY): bool
+    {
+        return $x === $posX && $y === $posY;
+    }
+
+    private function outOfBounds(int $x, int $y)
+    {
+        $width = count($this->grid[0]);
+        $height = count($this->grid);
+
+        return ($y < 0 || $y >= $height) || ($x < 0 || $x >= $width);
     }
 }
