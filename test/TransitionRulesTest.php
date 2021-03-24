@@ -18,70 +18,33 @@ class TransitionRulesTest extends TestCase
         $this->transitionRules = new TransitionRules();
     }
 
-    /** @test */
-    public function shouldBeAliveWhenNeighboursCountIsExactly3AndCellIsDead()
+    /**
+     * @test
+     * @dataProvider stubInformation
+     * @param int $neighboursCount
+     * @param bool $startingState
+     * @param bool $expectedState
+     */
+    public function shouldBeDeadWhenNeighboursCountMoreThan3AndCellIsAlive(int $neighboursCount, bool $startingState, bool $expectedState)
     {
-        $this->cell->shouldReceive('isAlive')->andReturnFalse();
-        $this->cell->shouldReceive('neighboursCount')->andReturn(3);
+        $this->cell->shouldReceive('neighboursCount')->andReturn($neighboursCount);
+        $this->cell->shouldReceive('isAlive')->andReturn($startingState);
 
         $isAlive = $this->transitionRules->apply($this->cell);
 
-        $this->assertTrue($isAlive);
+        $this->assertSame($expectedState, $isAlive);
     }
 
-    /** @test */
-    public function shouldBeAliveWhenNeighboursCountIsNot3AndCellIsDead()
+    public function stubInformation()
     {
-        $this->cell->shouldReceive('neighboursCount')->andReturn(2);
-        $this->cell->shouldReceive('isAlive')->andReturnFalse();
-
-        $isAlive = $this->transitionRules->apply($this->cell);
-
-        $this->assertFalse($isAlive);
-    }
-
-    /** @test */
-    public function shouldBeAliveWhenNeighboursCountIs2AndCellIsAlive()
-    {
-        $this->cell->shouldReceive('neighboursCount')->andReturn(2);
-        $this->cell->shouldReceive('isAlive')->andReturnTrue();
-
-        $isAlive = $this->transitionRules->apply($this->cell);
-
-        $this->assertTrue($isAlive);
-    }
-
-    /** @test */
-    public function shouldBeAliveWhenNeighboursCountIs3AndCellIsAlive()
-    {
-        $this->cell->shouldReceive('neighboursCount')->andReturn(3);
-        $this->cell->shouldReceive('isAlive')->andReturnTrue();
-
-        $isAlive = $this->transitionRules->apply($this->cell);
-
-        $this->assertTrue($isAlive);
-    }
-
-    /** @test */
-    public function shouldBeDeadWhenNeighboursCountLessThan2AndCellIsAlive()
-    {
-        $this->cell->shouldReceive('neighboursCount')->andReturn(1);
-        $this->cell->shouldReceive('isAlive')->andReturnTrue();
-
-        $isAlive = $this->transitionRules->apply($this->cell);
-
-        $this->assertFalse($isAlive);
-    }
-
-    /** @test */
-    public function shouldBeDeadWhenNeighboursCountMoreThan3AndCellIsAlive()
-    {
-        $this->cell->shouldReceive('neighboursCount')->andReturn(4);
-        $this->cell->shouldReceive('isAlive')->andReturnTrue();
-
-        $isAlive = $this->transitionRules->apply($this->cell);
-
-        $this->assertFalse($isAlive);
+        return [
+            "shouldBeAliveWhenNeighboursCountIsExactly3AndCellIsDead" => [3, false, true],
+            "shouldBeAliveWhenNeighboursCountIsNot3AndCellIsDead" => [2, false, false],
+            "shouldBeAliveWhenNeighboursCountIs2AndCellIsAlive" => [2, true, true],
+            "shouldBeAliveWhenNeighboursCountIs3AndCellIsAlive" => [3, true, true],
+            "shouldBeDeadWhenNeighboursCountLessThan2AndCellIsAlive" => [1, true, false],
+            "shouldBeDeadWhenNeighboursCountMoreThan3AndCellIsAlive" => [4, true, false],
+        ];
     }
 
     public function tearDown(): void
