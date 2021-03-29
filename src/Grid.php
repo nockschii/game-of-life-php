@@ -22,7 +22,7 @@ class Grid
         }
     }
 
-    public function getNeighbours(int $posX, int $posY)
+    public function getNeighbours(int $posX, int $posY): array
     {
         $neighbours = [];
         for ($y = $posY - 1; $y < $posY + 2; $y++) {
@@ -44,7 +44,7 @@ class Grid
         return $x === $posX && $y === $posY;
     }
 
-    private function outOfBounds(int $x, int $y)
+    private function outOfBounds(int $x, int $y): bool
     {
         $width = count($this->grid[0]);
         $height = count($this->grid);
