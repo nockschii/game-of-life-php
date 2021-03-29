@@ -10,7 +10,7 @@ class JsonParserTest extends TestCase
     /** @test */
     public function shouldReturnHorizontalBlinderGivenJsonWithHorizontalBlinker(): void
     {
-        $filePath = "../test/testPatterns/Blinker1.json";
+        $filePath = "./test/testPatterns/Blinker1.json";
         $jsonParser = new JsonParser();
         $expectedParsedGrid = [
           [false, false, false],
@@ -26,7 +26,7 @@ class JsonParserTest extends TestCase
     /** @test */
     public function shouldReturnVerticalBlinderGivenJsonWithVerticalBlinker(): void
     {
-        $filePath = "../test/testPatterns/Blinker2.json";
+        $filePath = "./test/testPatterns/Blinker2.json";
         $jsonParser = new JsonParser();
         $expectedParsedGrid = [
             [false, true, false],

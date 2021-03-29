@@ -17,7 +17,7 @@ class InputParserTest extends TestCase
     /** @test */
     public function shouldParseHorizontalBlinkerGivenAHorizontalBlinkerTestFile()
     {
-        $filePath = "../test/testPatterns/Blinker1.input";
+        $filePath = "./test/testPatterns/Blinker1.input";
         $expectedParsedGrid = [
           [false, false, false],
           [true, true, true],
@@ -32,7 +32,7 @@ class InputParserTest extends TestCase
     /** @test */
     public function shouldParseVerticalBlinkerGivenAVerticalBlinkerTestFile()
     {
-        $filePath = "../test/testPatterns/Blinker2.input";
+        $filePath = "./test/testPatterns/Blinker2.input";
         $expectedParsedGrid = [
             [false, true, false],
             [false, true, false],

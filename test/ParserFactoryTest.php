@@ -26,7 +26,7 @@ class ParserFactoryTest extends TestCase
     {
         return [
             "Blinker1.input should return horizontal Blinker" => [
-                '../test/testPatterns/Blinker1.input',
+                './test/testPatterns/Blinker1.input',
                 [
                     [false, false, false],
                     [true, true, true],
@@ -34,7 +34,7 @@ class ParserFactoryTest extends TestCase
                 ],
             ],
             "Blinker2.input should return vertical Blinker" =>[
-                '../test/testPatterns/Blinker2.input',
+                './test/testPatterns/Blinker2.input',
                 [
                     [false, true, false],
                     [false, true, false],
@@ -42,7 +42,7 @@ class ParserFactoryTest extends TestCase
                 ],
             ],
             "Blinker1.json should return horizontal Blinker" => [
-                '../test/testPatterns/Blinker1.json',
+                './test/testPatterns/Blinker1.json',
                 [
                     [false, false, false],
                     [true, true, true],
@@ -50,7 +50,7 @@ class ParserFactoryTest extends TestCase
                 ],
             ],
             "Blinker2.json should return vertical Blinker" => [
-                '../test/testPatterns/Blinker2.json',
+                './test/testPatterns/Blinker2.json',
                 [
                     [false, true, false],
                     [false, true, false],
