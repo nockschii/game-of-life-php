@@ -39,13 +39,6 @@ class Grid
         return $neighbours;
     }
 
-    /**
-     * @param int $x
-     * @param int $posX
-     * @param int $y
-     * @param int $posY
-     * @return bool
-     */
     private function isSameCell(int $x, int $posX, int $y, int $posY): bool
     {
         return $x === $posX && $y === $posY;
